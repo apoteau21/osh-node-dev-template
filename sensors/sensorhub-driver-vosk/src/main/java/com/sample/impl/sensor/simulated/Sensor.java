@@ -41,7 +41,7 @@ public class Sensor extends AbstractSensorModule<Config> {
     LanguageModel languageModel = LanguageModel.ENGLISH;
 
     //@Override
-    public void doInit() throws SensorHubException, IOException {
+    public void doInit() throws SensorHubException {
 
         super.doInit();
 
