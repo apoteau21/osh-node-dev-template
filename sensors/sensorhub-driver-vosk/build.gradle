@@ -1,0 +1,50 @@
+description = 'Vosk NLP'
+ext.details = "Driver for speech recognition and translation."
+version = '1.1.0'
+
+repositories {
+    mavenCentral()
+//    flatDir {
+//        dirs("libs")
+//    }
+}
+
+dependencies {
+    implementation 'org.sensorhub:sensorhub-core:' + oshCoreVersion
+//    implementation project(':sensorhub-service-video')
+//    implementation project(':sensorhub-driver-videocam')
+    testImplementation('junit:junit:4.13.1')
+    //implementation 'org.vosk:vosk:0.3.32'
+    //implementation 'net.java.dev.jna:jna:5.7.0'
+    implementation files('libs/vosk-0.3.32.jar')
+    implementation files('libs/jna-5.7.0.jar')
+    //implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+// exclude tests requiring connection to the sensor
+// these have to be run manually
+//      If tests are to be excluded list them here as follows
+//          exclude '**/TestNameClass.class'
+test {
+    useJUnit()
+}
+
+// add info to OSGi manifest
+osgi {
+    manifest {
+        attributes ('Bundle-Vendor': 'Botts Inc')
+        attributes ('Bundle-Activator': 'com.sample.impl.sensor.drivername.Activator')
+    }
+}
+
+// add info to maven pom
+ext.pom >>= {
+    developers {
+        developer {
+            id 'ashley-poteau@botts-inc.com'
+            name 'Ashley Poteau'
+            organization 'Botts Innovative Research'
+            organizationUrl 'https://botts-inc.com/'
+        }
+    }
+}
