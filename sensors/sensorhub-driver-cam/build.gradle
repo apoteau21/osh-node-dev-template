@@ -1,0 +1,41 @@
+description = 'Tilt Camera Driver'
+ext.details = "Driver to make the camera tilt."
+version = '1.1.0'
+
+dependencies {
+    implementation 'org.sensorhub:sensorhub-core:' + oshCoreVersion
+//    implementation project(':sensorhub-service-video')
+    implementation project(':sensorhub-driver-videocam')
+    testImplementation('junit:junit:4.13.1')
+    implementation 'com.pi4j:pi4j-core:1.2'
+    implementation 'org.bytedeco:javacv-platform:1.5.3'
+
+}
+
+// exclude tests requiring connection to the sensor
+// these have to be run manually
+//      If tests are to be excluded list them here as follows
+//          exclude '**/TestNameClass.class'
+test {
+    useJUnit()
+}
+
+// add info to OSGi manifest
+osgi {
+    manifest {
+        attributes ('Bundle-Vendor': 'Botts Inc')
+        attributes ('Bundle-Activator': 'com.sample.impl.sensor.drivername.Activator')
+    }
+}
+
+// add info to maven pom
+ext.pom >>= {
+    developers {
+        developer {
+            id 'ashley-poteau@botts-inc.com'
+            name 'Ashley Poteau'
+            organization 'Botts Innovative Research'
+            organizationUrl 'https://botts-inc.com/'
+        }
+    }
+}
