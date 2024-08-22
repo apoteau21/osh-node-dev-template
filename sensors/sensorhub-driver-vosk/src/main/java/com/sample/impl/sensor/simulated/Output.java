@@ -196,7 +196,13 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
 
             while (doWork.get()) {
 
-                //String result = dataBufferQueue.take(); //may not actually need this
+                //String result = dataBufferQueue.take();
+
+                //String finResult = recognizer != null ? recognizer.getResult() : "Recognizer not initialized";
+
+                String finResult = recognizer.getResult();
+
+                finResult = dataBufferQueue.take();
 
                 DataBlock dataBlock;
                 if (latestRecord == null) {
@@ -222,8 +228,6 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
                 ++setCount;
 
                 double timestamp = System.currentTimeMillis() / 1000d;
-
-                String finResult = recognizer != null ? recognizer.getResult() : "Recognizer not initialized";
 
                 // TODO: Populate data block
                 dataBlock.setDoubleValue(0, System.currentTimeMillis() / 1000.0);
@@ -257,11 +261,11 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
     }
 
     @Override
-    public void onTranscribedAudio(String result) {
+    public void onTranscribedAudio(String finResult) {
 
         try {
 
-            dataBufferQueue.put(result);
+            dataBufferQueue.put(finResult);
 
         } catch (InterruptedException e) {
 
