@@ -188,8 +188,82 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
     @Override
     public void run() {
 
-        boolean processSets = true;
+//        boolean processSets = true;
 
+        //long lastSetTimeMillis = System.currentTimeMillis();
+
+//        try {
+//
+////            while (doWork.get()) {
+////
+////                //String result = dataBufferQueue.take();
+////
+////                //String finResult = recognizer != null ? recognizer.getResult() : "Recognizer not initialized";
+////
+////                String finResult = recognizer.getResult();
+////
+////                finResult = dataBufferQueue.take();
+////
+////                DataBlock dataBlock;
+////                if (latestRecord == null) {
+////
+////                    dataBlock = dataStruct.createDataBlock();
+////
+////                } else {
+////
+////                    dataBlock = latestRecord.renew();
+////                }
+////
+////                synchronized (histogramLock) {
+////
+////                    int setIndex = setCount % MAX_NUM_TIMING_SAMPLES;
+////
+////                    // Get a sampling time for latest set based on previous set sampling time
+////                    timingHistogram[setIndex] = System.currentTimeMillis() - lastSetTimeMillis;
+////
+////                    // Set latest sampling time to now
+////                    lastSetTimeMillis = timingHistogram[setIndex];
+////                }
+////
+////                ++setCount;
+////
+////                double timestamp = System.currentTimeMillis() / 1000d;
+////
+////                // TODO: Populate data block
+////                dataBlock.setDoubleValue(0, System.currentTimeMillis() / 1000.0);
+////
+////                dataBlock.setStringValue(1, finResult); // get result!
+////
+////                latestRecord = dataBlock;
+////
+////                latestRecordTime = System.currentTimeMillis();
+////
+////                eventHandler.publish(new DataEvent(latestRecordTime, Output.this, dataBlock));
+////
+////                synchronized (processingLock) {
+////
+////                    processSets = !stopProcessing;
+////                }
+////            }
+//
+//        } catch (Exception e) {
+//
+//            logger.error("Error in worker thread: {}", Thread.currentThread().getName(), e);
+//
+//        } finally {
+//
+//            // Reset the flag so that when driver is restarted loop thread continues
+//            // until doStop called on the output again
+//            stopProcessing = false;
+//
+//            logger.debug("Terminating worker thread: {}", Thread.currentThread().getName());
+//        }
+    }
+
+    @Override
+    public void onTranscribedAudio(String finResult) {
+
+        boolean processSets = true;
         long lastSetTimeMillis = System.currentTimeMillis();
 
         try {
@@ -200,7 +274,7 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
 
                 //String finResult = recognizer != null ? recognizer.getResult() : "Recognizer not initialized";
 
-                String finResult = recognizer.getResult();
+                finResult = recognizer.getResult();
 
                 finResult = dataBufferQueue.take();
 
@@ -246,6 +320,13 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
                 }
             }
 
+            getLogger().info("Output receiving result: {}", finResult);
+
+            dataBufferQueue.put(finResult);
+
+        } catch (InterruptedException e) {
+
+            logger.error("Error in worker thread: {} due to exception: {}", Thread.currentThread().getName(), e.toString());
         } catch (Exception e) {
 
             logger.error("Error in worker thread: {}", Thread.currentThread().getName(), e);
@@ -257,19 +338,6 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
             stopProcessing = false;
 
             logger.debug("Terminating worker thread: {}", Thread.currentThread().getName());
-        }
-    }
-
-    @Override
-    public void onTranscribedAudio(String finResult) {
-
-        try {
-
-            dataBufferQueue.put(finResult);
-
-        } catch (InterruptedException e) {
-
-            logger.error("Error in worker thread: {} due to exception: {}", Thread.currentThread().getName(), e.toString());
         }
     }
 }

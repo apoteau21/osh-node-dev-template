@@ -34,6 +34,8 @@ public class SpeechProcessor extends Thread {
     private Model model;
     public Recognizer recognizer;
     AudioFormat format = new AudioFormat(16000, 16, 1, true, false);
+    private TargetDataLine microphone;
+
 
     public SpeechProcessor(SpeechRecognizerType speechRecognizerType, LanguageModel languageModel, InputStream inputStream) throws IOException {
         super(WORKER_THREAD_NAME);
@@ -60,7 +62,27 @@ public class SpeechProcessor extends Thread {
 
             System.out.println(recognizer.getFinalResult());
         } else { // if live audio input
-            System.out.println("haven't quite figured this out yet");
+            try {
+                DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+                microphone = (TargetDataLine) AudioSystem.getLine(info);
+                microphone.open(format);
+                microphone.start();
+
+                byte[] buffer = new byte[4096];
+                while (processing.get()) {
+                    int bytesRead = microphone.read(buffer, 0, buffer.length);
+                    if (bytesRead > 0) {
+                        if (recognizer.acceptWaveForm(buffer, bytesRead)) {
+                            System.out.println(recognizer.getResult());
+                        } else {
+                            System.out.println(recognizer.getPartialResult());
+                        }
+                    }
+                }
+                System.out.println("tbd");
+            } catch (LineUnavailableException e) {
+                logger.error("Microphone is unavailable: ", e);
+            }
         }
 
         processing.set(true);
