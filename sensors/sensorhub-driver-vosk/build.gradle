@@ -1,6 +1,6 @@
 description = 'Vosk NLP'
 ext.details = "Driver for speech recognition and translation."
-version = '1.1.4'
+version = '1.1.5'
 
 repositories {
     mavenCentral()

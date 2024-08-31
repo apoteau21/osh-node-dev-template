@@ -57,6 +57,7 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
     private final Object histogramLock = new Object();
 
     private Thread worker;
+    private SpeechProcessor speechProcessor;
 
     BlockingQueue<String> dataBufferQueue = new LinkedBlockingQueue<>();
     private Model model;
@@ -79,6 +80,9 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
 
         recognizer = new Recognizer(model, 16000f);
         //worker = new Thread(this, worker.getName());
+
+        speechProcessor = new SpeechProcessor(SpeechRecognizerType.LIVE, languageModel, null);
+        speechProcessor.addListener(this);
 
     }
 
@@ -127,6 +131,12 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
             worker = new Thread(this);
         }
 
+        // start speech processor thread
+        if (speechProcessor != null && !speechProcessor.isAlive()) {
+            speechProcessor.start();
+            logger.info("SpeechProcessor thread started.");
+        }
+
         logger.info("Starting worker thread: {}", worker.getName());
 
         doWork.set(true);
@@ -144,7 +154,16 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
 
         doWork.set(false);
 
-        logger.debug("Stopped");
+        if (speechProcessor != null) {
+            try {
+                speechProcessor.stopProcessingStream(); // Stop the SpeechProcessor
+            } catch (IOException e) {
+                logger.error("Error stopping SpeechProcessor: {}", e.getMessage());
+            }
+        }
+
+
+            logger.debug("Stopped");
     }
 
     /**
@@ -303,6 +322,8 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
 
                 double timestamp = System.currentTimeMillis() / 1000d;
 
+                logger.debug("beginning to populate data block");
+
                 // TODO: Populate data block
                 dataBlock.setDoubleValue(0, System.currentTimeMillis() / 1000.0);
 
@@ -323,6 +344,8 @@ public class Output extends BaseSensorOutput<Sensor> implements Runnable, AudioT
             getLogger().info("Output receiving result: {}", finResult);
 
             dataBufferQueue.put(finResult);
+
+            logger.debug("finished populating data block");
 
         } catch (InterruptedException e) {
 

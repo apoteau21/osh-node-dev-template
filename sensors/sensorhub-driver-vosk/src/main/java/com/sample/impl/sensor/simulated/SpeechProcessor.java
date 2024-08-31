@@ -100,7 +100,7 @@ public class SpeechProcessor extends Thread {
     public void run() {
         logger.info("starting speech processor...");
 
-        while (processing.get() && ((recognizer.getResult()) != null)) {
+       while (processing.get() && ((recognizer.getResult()) != null)) {
 
             logger.info("Hypothesis: {}\n", recognizer.getResult()); // output the rsults of the speech translation
 
