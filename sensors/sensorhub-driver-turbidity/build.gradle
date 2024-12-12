@@ -1,0 +1,39 @@
+description = 'Turbidity Sensor Driver'
+ext.details = "Driver for a turbidity sensor to determine water quality."
+version = '1.0.0'
+
+dependencies {
+    implementation 'org.sensorhub:sensorhub-core:' + oshCoreVersion
+//    implementation project(':sensorhub-service-video')
+//    implementation project(':sensorhub-driver-videocam')
+    testImplementation('junit:junit:4.13.1')
+    implementation 'com.pi4j:pi4j-core:1.2'
+}
+
+// exclude tests requiring connection to the sensor
+// these have to be run manually
+//      If tests are to be excluded list them here as follows
+//          exclude '**/TestNameClass.class'
+test {
+    useJUnit()
+}
+
+// add info to OSGi manifest
+osgi {
+    manifest {
+        attributes ('Bundle-Vendor': 'Botts Inc')
+        attributes ('Bundle-Activator': 'com.sample.impl.sensor.drivername.Activator')
+    }
+}
+
+// add info to maven pom
+ext.pom >>= {
+    developers {
+        developer {
+            id 'ashley.poteau@botts-inc.com'
+            name 'Ashley Poteau'
+            organization ''
+            organizationUrl ''
+        }
+    }
+}
