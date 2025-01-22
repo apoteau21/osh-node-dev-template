@@ -15,6 +15,9 @@ includeBuild gradle.oshCoreDir
 include 'sensorhub-test'
 project(':sensorhub-test').projectDir = "$toolsDir/sensorhub-test" as File
 
+// include the turbidity sensor driver
+include ':sensorhub-driver-turbidity'
+project(':sensorhub-driver-turbidity').projectDir = "$sensorDir/sensorhub-driver-turbidity" as File
 
 // osh-storage
 //include '[storage-module-name]'

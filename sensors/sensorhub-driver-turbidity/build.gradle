@@ -1,13 +1,16 @@
 description = 'Turbidity Sensor Driver'
 ext.details = "Driver for a turbidity sensor to determine water quality."
-version = '1.0.0'
+version = '1.0.1'
 
 dependencies {
     implementation 'org.sensorhub:sensorhub-core:' + oshCoreVersion
 //    implementation project(':sensorhub-service-video')
 //    implementation project(':sensorhub-driver-videocam')
     testImplementation('junit:junit:4.13.1')
-    implementation 'com.pi4j:pi4j-core:1.2'
+    implementation "com.pi4j:pi4j-core:2.7.0"
+    implementation "com.pi4j:pi4j-plugin-raspberrypi:2.7.0"
+    implementation 'com.pi4j:pi4j-plugin-pigpio:2.7.0'
+    implementation 'net.java.dev.jna:jna:5.12.1'
 }
 
 // exclude tests requiring connection to the sensor

@@ -18,6 +18,8 @@ import org.sensorhub.impl.sensor.AbstractSensorModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.pi4j.io.gpio.*;
+import java.io.*;
+
 
 /**
  * Sensor driver providing sensor description, output registration, initialization and shutdown of driver and outputs.
@@ -29,9 +31,12 @@ public class TurbiditySensor extends AbstractSensorModule<TurbidityConfig> {
 
     private static final Logger logger = LoggerFactory.getLogger(TurbiditySensor.class);
 
-    TurbidityOutput output;
+    private TurbidityOutput output;
 
-    @Override
+    private TurbidityVoltageReader voltReader;
+
+    TurbidityVoltageReader tdsValue;
+
     public void doInit() throws SensorHubException {
 
         super.doInit();
@@ -40,26 +45,26 @@ public class TurbiditySensor extends AbstractSensorModule<TurbidityConfig> {
         generateUniqueID("[URN]", config.serialNumber);
         generateXmlID("[XML-PREFIX]", config.serialNumber);
 
-        // Create and initialize output
+        // create and initialize output
         output = new TurbidityOutput(this);
-
-        addOutput(output, false);
-
         output.doInit();
-
-        // TODO: Perform other initialization
+        addOutput(output, false);
     }
 
-    @Override
+    //@Override
     public void doStart() throws SensorHubException {
 
-        if (null != output) {
+        logger.debug("starting");
 
+        if (null != output) {
             // Allocate necessary resources and start outputs
             output.doStart();
         }
 
         // TODO: Perform other startup procedures
+
+        //bluh
+        //System.out.print("A1: " + tdsValue);
     }
 
     @Override
