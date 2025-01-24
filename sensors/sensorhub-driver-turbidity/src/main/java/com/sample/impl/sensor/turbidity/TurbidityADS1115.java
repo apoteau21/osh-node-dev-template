@@ -4,13 +4,11 @@ import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
 import com.pi4j.io.i2c.I2C;
 import com.pi4j.io.i2c.I2CConfig;
-//import com.pi4j.io.i2c.I2CDevice;
-//import com.pi4j.io.i2c.I2CFactory;
-
-//import com.pi4j.catalog.components.base.I2CDevice;
 
 /**
  * The TurbidityADS1115 class interacts with the turbidity sensor by reading and writing to I2C registers.
+ *
+ * heavily referenced from CQRobot_ADS1115.py
  *
  * @author Ashley Poteau
  * @since January 10, 2025
@@ -41,7 +39,7 @@ public class TurbidityADS1115 {
     private static final int ADS1115_REG_POINTER_LOWTHRESH = 0x02; // low threshold register
     private static final int ADS1115_REG_POINTER_HITHRESH = 0x03; // high threshold register
 
-    //---------------------------------------------------------------------------------- config registers (start) ----------------------------------------------------------------------------------
+    //------------------------------ config registers (start) --------------------------------
     // added several spaces to improve readability
 
     // config os
@@ -100,7 +98,7 @@ public class TurbidityADS1115 {
     private static final int ADS1115_REG_CONFIG_CQUE_3CONV = 0x02; // assert alert/rdy after 4 conversions
     private static final int ADS1115_REG_CONFIG_CQUE_NONE = 0x03; // disable the comparator and put alert/rdy in high state (default)
 
-    //---------------------------------------------------------------------------------- config registers (end) ----------------------------------------------------------------------------------
+    //----------------------------------- config registers (end) -------------------------------------
 
     private static int addr_G = ADS1115_IIC_ADDRESS0;
     private static int channel;

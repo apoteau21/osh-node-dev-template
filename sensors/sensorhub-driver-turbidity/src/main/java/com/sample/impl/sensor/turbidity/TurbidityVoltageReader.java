@@ -3,10 +3,8 @@ package com.sample.impl.sensor.turbidity;
 import com.pi4j.context.Context;
 import com.pi4j.io.i2c.I2C;
 import com.pi4j.io.i2c.I2CConfig;
-//import com.pi4j.io.i2c.I2CFactory;
 
 import java.util.Arrays;
-import java.util.*;
 
 /**
  * The TurbidityVoltageReader class provides the functionality necessary for reading turbidity.
@@ -31,6 +29,8 @@ public class TurbidityVoltageReader {
     private static double bTemp = 0;
     private static int copyIndex = 0;
 
+    public static boolean print = false;
+
     // buffers
     private static double[] analogBufferTemp = new double[bufferSize];
     private static double[] analogBuffer = new double[bufferSize];
@@ -43,8 +43,8 @@ public class TurbidityVoltageReader {
             for (int i = 0; i < filterLen - j - 1; i++) {
                 if (analogBufferTemp[i] > analogBufferTemp[i + 1]) {
                     bTemp = analogBufferTemp[i];
-                    analogBufferTemp[i] = analogBufferTemp[i+1];
-                    analogBufferTemp[i+1] = bTemp;
+                    analogBufferTemp[i] = analogBufferTemp[i + 1];
+                    analogBufferTemp[i + 1] = bTemp;
                 }
             }
         }
@@ -62,7 +62,9 @@ public class TurbidityVoltageReader {
         double analogSampleTimepoint = System.currentTimeMillis() / 1000.0;
         double printTimepoint = System.currentTimeMillis() / 1000.0;
 
-        while (true) { // unexpected token error?!
+        print = true;
+
+        while (print) {
             if (System.currentTimeMillis() / 1000.0 - analogSampleTimepoint > 0.04) {
                 analogSampleTimepoint = System.currentTimeMillis() / 1000.0;
                 analogBuffer[analogBufferIndex] = ads1115.readVoltage(1);

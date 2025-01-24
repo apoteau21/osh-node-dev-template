@@ -17,9 +17,8 @@ import org.sensorhub.api.common.SensorHubException;
 import org.sensorhub.impl.sensor.AbstractSensorModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.pi4j.io.gpio.*;
-import java.io.*;
 
+import static com.sample.impl.sensor.turbidity.TurbidityVoltageReader.getMedianNum;
 
 /**
  * Sensor driver providing sensor description, output registration, initialization and shutdown of driver and outputs.
@@ -33,9 +32,7 @@ public class TurbiditySensor extends AbstractSensorModule<TurbidityConfig> {
 
     private TurbidityOutput output;
 
-    private TurbidityVoltageReader voltReader;
-
-    TurbidityVoltageReader tdsValue;
+    boolean print = TurbidityVoltageReader.print;
 
     public void doInit() throws SensorHubException {
 
@@ -51,7 +48,12 @@ public class TurbiditySensor extends AbstractSensorModule<TurbidityConfig> {
         addOutput(output, false);
     }
 
-    //@Override
+    public void recurringTDS() {
+        System.out.println("A1: " + TurbidityVoltageReader.getMedianNum(30));
+        System.out.println("A1: " + TurbidityVoltageReader.tdsValue);
+    }
+
+    @Override
     public void doStart() throws SensorHubException {
 
         logger.debug("starting");
@@ -63,19 +65,24 @@ public class TurbiditySensor extends AbstractSensorModule<TurbidityConfig> {
 
         // TODO: Perform other startup procedures
 
-        //bluh
-        //System.out.print("A1: " + tdsValue);
+        print = true;
+
+        while (print) {
+            recurringTDS();
+            logger.debug("started");
+        }
     }
 
     @Override
     public void doStop() throws SensorHubException {
 
         if (null != output) {
-
             output.doStop();
         }
 
         // TODO: Perform other shutdown procedures
+        print = false;
+        logger.debug("stopped");
     }
 
     @Override

@@ -21,7 +21,7 @@ import org.sensorhub.api.data.DataEvent;
 import org.sensorhub.impl.sensor.AbstractSensorOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vast.swe.helper.GeoPosHelper;
+import org.vast.swe.SWEHelper;
 
 /**
  * Output specification and provider for {@link TurbiditySensor}.
@@ -31,13 +31,13 @@ import org.vast.swe.helper.GeoPosHelper;
  */
 public class TurbidityOutput extends AbstractSensorOutput<TurbiditySensor> implements Runnable {
 
-    private static final String SENSOR_OUTPUT_NAME = "[NAME]";
-    private static final String SENSOR_OUTPUT_LABEL = "[LABEL]";
-    private static final String SENSOR_OUTPUT_DESCRIPTION = "[DESCRIPTION]";
+    private static final String SENSOR_OUTPUT_NAME = "TDSOutput";
+    private static final String SENSOR_OUTPUT_LABEL = "TDS Output";
+    private static final String SENSOR_OUTPUT_DESCRIPTION = "Output data for the TDS Meter Sensor";
 
     private static final Logger logger = LoggerFactory.getLogger(TurbidityOutput.class);
 
-    private DataRecord dataStruct;
+    private DataRecord dataRecord;
     private DataEncoding dataEncoding;
 
     private Boolean stopProcessing = false;
@@ -49,6 +49,8 @@ public class TurbidityOutput extends AbstractSensorOutput<TurbiditySensor> imple
     private final Object histogramLock = new Object();
 
     private Thread worker;
+
+    private TurbidityOutput output;
 
     /**
      * Constructor
@@ -70,25 +72,55 @@ public class TurbidityOutput extends AbstractSensorOutput<TurbiditySensor> imple
 
         logger.debug("Initializing Output");
 
-        // Get an instance of SWE Factory suitable to build components
-        GeoPosHelper sweFactory = new GeoPosHelper();
+        initializeDataRecord();
+        initializeDataEncoding();
 
-        // TODO: Create data record description
-        dataStruct = sweFactory.createRecord()
+        logger.debug("Initializing Output Complete");
+    }
+
+    /**
+     * Sets the data for the sensor output.
+     *
+     * @param tdsVal long indicating the levels of total dissolved solids in the water
+     */
+    public void setData(long tdsVal) {
+        long timestamp = System.currentTimeMillis();
+        DataBlock dataBlock = latestRecord == null ? dataRecord.createDataBlock() : latestRecord.renew();
+
+        tdsVal = (long) TurbidityVoltageReader.tdsValue;
+
+        dataBlock.setDoubleValue(0, timestamp / 1000d);
+        dataBlock.setLongValue(1, tdsVal);
+
+        latestRecord = dataBlock;
+        eventHandler.publish(new DataEvent(timestamp, TurbidityOutput.this, dataBlock));
+    }
+
+    /**
+     * Initializes the data record for the sensor output.
+     */
+    private void initializeDataRecord() {
+        SWEHelper sweHelper = new SWEHelper();
+
+        dataRecord = sweHelper.createRecord()
                 .name(SENSOR_OUTPUT_NAME)
                 .label(SENSOR_OUTPUT_LABEL)
                 .description(SENSOR_OUTPUT_DESCRIPTION)
-                .addField("sampleTime", sweFactory.createTime()
+                .addField("Timestamp", sweHelper.createTime()
                         .asSamplingTimeIsoUTC()
-                        .label("Sample Time")
+                        .label("Timestamp")
                         .description("Time of data collection"))
-                .addField("data", sweFactory.createText()
-                        .label("Example Data"))
+                .addField("TDS Values", sweHelper.createQuantity()
+                        .label("TDS Values (mv, ppm)")
+                        .description("The level of Total Dissolved Solids in the water."))
                 .build();
+    }
 
-        dataEncoding = sweFactory.newTextEncoding(",", "\n");
-
-        logger.debug("Initializing Output Complete");
+    /**
+     * Initializes the data encoding for the sensor output.
+     */
+    private void initializeDataEncoding() {
+        dataEncoding = new SWEHelper().newTextEncoding(",", "\n");
     }
 
     /**
@@ -133,7 +165,7 @@ public class TurbidityOutput extends AbstractSensorOutput<TurbiditySensor> imple
     @Override
     public DataComponent getRecordDescription() {
 
-        return dataStruct;
+        return dataRecord;
     }
 
     @Override
@@ -172,7 +204,7 @@ public class TurbidityOutput extends AbstractSensorOutput<TurbiditySensor> imple
                 DataBlock dataBlock;
                 if (latestRecord == null) {
 
-                    dataBlock = dataStruct.createDataBlock();
+                    dataBlock = dataRecord.createDataBlock();
 
                 } else {
 

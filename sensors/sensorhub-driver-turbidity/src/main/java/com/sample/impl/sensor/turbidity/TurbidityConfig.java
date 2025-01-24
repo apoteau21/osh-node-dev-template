@@ -40,11 +40,4 @@ public class TurbidityConfig extends SensorConfig {
     @DisplayInfo(desc = "Serial number or unique identifier")
     public String serialNumber = "turbidity-001";
 
-    /**
-     *
-
-    @DisplayInfo.Required
-    @DisplayInfo(label="Tilt Servo Pin", desc="the gpio pin to control the tilt servo")
-    public TurbidityGPIOEnum tiltServoPin = TurbidityGPIOEnum.PIN_13;
-    */
 }
