@@ -1,4 +1,4 @@
-rootProject.name = 'osh-node'
+rootProject.name = 'tds-osh-node'
 def includeDir = "$rootDir/include"
 def sensorDir = "$includeDir/osh-addons/sensors"
 def persistenceDir = "$includeDir/osh-addons/persistence"
@@ -15,6 +15,9 @@ includeBuild gradle.oshCoreDir
 include 'sensorhub-test'
 project(':sensorhub-test').projectDir = "$toolsDir/sensorhub-test" as File
 
+// include turbidity sensor
+include ':sensorhub-driver-tds-meter'
+project(':sensorhub-driver-tds-meter').projectDir = "$sensorDir/sensorhub-driver-tds-meter" as File
 
 // osh-storage
 //include '[storage-module-name]'
@@ -53,9 +56,11 @@ project(':sensorhub-test').projectDir = "$toolsDir/sensorhub-test" as File
 FileTree subprojects = fileTree("$rootDir/sensors").include('**/build.gradle')
 subprojects.files.each { File f ->
     File projectFolder = f.parentFile
-    if (projectFolder != rootDir) {
-        String projectName = ':' + projectFolder.name
-        include projectName
-        project(projectName).projectDir = projectFolder
+    if (!projectFolder.name.contains("template")) {
+        if (projectFolder != rootDir) {
+            String projectName = ':' + projectFolder.name
+            include projectName
+            project(projectName).projectDir = projectFolder
+        }
     }
 }
