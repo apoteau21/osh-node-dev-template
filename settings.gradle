@@ -46,12 +46,41 @@ project(':sensorhub-test').projectDir = "$toolsDir/sensorhub-test" as File
 //include 'sensorhub-driver-videocam'
 //project(':sensorhub-driver-videocam').projectDir = "$sensorDir/video/sensorhub-driver-videocam" as File
 
+include 'sensorhub-driver-simuav'
+project(':sensorhub-driver-simuav').projectDir = "$sensorDir/simulated/sensorhub-driver-simuav" as File
+
+include 'sensorhub-datamodel-uxs'
+project(':sensorhub-datamodel-uxs').projectDir = "$sensorDir/robotics/sensorhub-datamodel-uxs" as File
+
+include 'sensorhub-process-geoloc'
+project(':sensorhub-process-geoloc').projectDir = "$processDir/sensorhub-process-geoloc" as File
+
+include 'sensorhub-process-vecmath'
+project(':sensorhub-process-vecmath').projectDir = "$processDir/sensorhub-process-vecmath" as File
+
+include 'sensorhub-driver-fakeweather'
+project(':sensorhub-driver-fakeweather').projectDir = "$sensorDir/simulated/sensorhub-driver-fakeweather" as File
+
 // Project modules
+//
+//include 'sensorhub-service-consys'
+//project(':sensorhub-service-consys').projectDir = "$serviceDir/sensorhub-service-consys" as File
+
 
 // Include all folders with build.gradle as subprojects
 
 FileTree subprojects = fileTree("$rootDir/sensors").include('**/build.gradle')
 subprojects.files.each { File f ->
+    File projectFolder = f.parentFile
+    if (projectFolder != rootDir) {
+        String projectName = ':' + projectFolder.name
+        include projectName
+        project(projectName).projectDir = projectFolder
+    }
+}
+
+FileTree processProjects = fileTree("$rootDir/processing").include('**/build.gradle')
+processProjects.files.each { File f ->
     File projectFolder = f.parentFile
     if (projectFolder != rootDir) {
         String projectName = ':' + projectFolder.name

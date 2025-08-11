@@ -1,26 +1,23 @@
 apply plugin: 'java'
 description = 'Main Test Project'
-targetCompatibility = 11
+targetCompatibility = 17
 
 dependencies {
-  implementation 'org.sensorhub:sensorhub-core:' + oshCoreVersion
-  implementation 'org.sensorhub:sensorhub-core-osgi:' + oshCoreVersion
-  implementation 'org.sensorhub:sensorhub-datastore-h2:' + oshCoreVersion
-  implementation 'org.sensorhub:sensorhub-service-swe:' + oshCoreVersion
-  implementation 'org.sensorhub:sensorhub-webui-core:' + oshCoreVersion
-  implementation 'org.sensorhub:sensorhub-service-consys:' + oshCoreVersion
-  implementation 'org.sensorhub:sensorhub-service-sweapi:' + oshCoreVersion
+    implementation 'org.sensorhub:sensorhub-core:' + oshCoreVersion
+    implementation 'org.sensorhub:sensorhub-datastore-h2:' + oshCoreVersion
+    implementation 'org.sensorhub:sensorhub-webui-core:' + oshCoreVersion
+    implementation 'org.sensorhub:sensorhub-service-consys:' + oshCoreVersion
+    implementation project(':sensorhub-driver-template')
+    implementation project(':sensorhub-driver-simuav')
+    implementation project(':sensorhub-datamodel-uxs')
+    implementation project(':sensorhub-process-geoloc')
+    implementation project(':sensorhub-process-vecmath')
+    implementation project(':sensorhub-driver-fakeweather')
 
-  // To test your own modules copy the template and set the project name to your modules project name.
-  // You must make sure that your project is enabled by including it in the settings.gradle file.
-  //
-  // !!!!!
-  // Do not include this "sensorhub-test" project in build.gradle as it will be packaged with your
-  // build if you do
-  // !!!!!
-  //
-  // implementation project(':PROJECT_NAME')
-  //
-  // EX:
-  // implementation project(':sensorhub-driver-rtpcam')
+    // To test your own modules, add a line with your module's project name.
+    // EX:
+    // implementation project(':sensorhub-driver-rtpcam')
+
+    // You must make sure that your project is enabled by including it in the settings.gradle file.
+    // Do not include this "sensorhub-test" project in build.gradle as it will be packaged with your build if you do!
 }

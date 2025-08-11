@@ -18,9 +18,9 @@ The current “node” template source code of OpenSensorHub is located at GitLa
  
          git clone -–recursive https://github.com/opensensorhub/osh-node-dev-template.git
 
-### Building and Deploying the Node
+## Building and Deploying the Node
 
-#### Gradle
+### Gradle
 
 Building the Node with Jetty deployable web server from the command line is as simple as checking the repository out and building with a simple command
  
@@ -32,7 +32,7 @@ The resulting build will be contained in /osh-node-template/build/distributions/
  
 Deploying is as simple as copying the zip file to the target destination and unzipping the file.  You can then run ./launch.sh in Linux or ./launch.bat in Windows environment to startup OpenSensorHub.
 
-###### Default OSH Configuration
+#### Default OSH Configuration
 
 With the deployment package, there is a ***config.json*** file containing a default configuration of
 OpenSensorHub.  Within this configuration, only default users and services are configured.

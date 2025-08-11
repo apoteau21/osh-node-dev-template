@@ -10,6 +10,8 @@ subprojects {
   repositories.addAll(rootProject.repositories)
 }
 
+
+
 dependencies {
   implementation 'org.sensorhub:sensorhub-core:' + oshCoreVersion
   implementation 'org.sensorhub:sensorhub-core-osgi:' + oshCoreVersion
@@ -17,7 +19,6 @@ dependencies {
   implementation 'org.sensorhub:sensorhub-service-swe:' + oshCoreVersion
   implementation 'org.sensorhub:sensorhub-webui-core:' + oshCoreVersion
   implementation 'org.sensorhub:sensorhub-service-consys:' + oshCoreVersion
-  implementation 'org.sensorhub:sensorhub-service-sweapi:' + oshCoreVersion
   implementation project(':sensorhub-driver-template')
 
 //  implementation project(':[storage-module-name]')
@@ -30,6 +31,11 @@ dependencies {
 //  implementation project(':sensorhub-storage-h2')
 //  implementation project(':sensorhub-service-video')
 //  implementation project(':sensorhub-driver-videocam')
+  implementation project(':sensorhub-driver-simuav')
+  implementation project(':sensorhub-datamodel-uxs')
+  implementation project(':sensorhub-process-geoloc')
+  implementation project(':sensorhub-process-vecmath')
+  implementation project(':sensorhub-driver-fakeweather')
 }
 
 // create one configuration for each distribution
@@ -39,9 +45,12 @@ configurations {
 
 distributions {
   main {
+    distributionBaseName = 'osh-node'
     contents {
-      from 'scripts'
-      from 'config'
+      from 'dist/scripts/'
+      into ('config') {
+        from 'dist/config'
+      }
       from 'README.md'
       into('web') {
         from 'web'
@@ -49,8 +58,10 @@ distributions {
       into('lib') {
         from project.configurations.runtimeClasspath
       }
-      into('db'){
-        from 'data_files'
+      subprojects.each { p ->
+        into('config/sensorML') {
+          from("${p.projectDir}/sensorML")
+        }
       }
     }
   }
