@@ -270,33 +270,5 @@
     "autoStart": true,
     "moduleClass": "org.sensorhub.impl.database.system.SystemDriverDatabase",
     "name": "New System Driver Database"
-  },
-  {
-    "objClass": "org.sensorhub.impl.database.system.SystemDriverDatabaseConfig",
-    "dbConfig": {
-      "objClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabaseConfig",
-      "indexObsLocation": false,
-      "storagePath": "misb_uas_CPI-24.db",
-      "memoryCacheSize": 5120,
-      "autoCommitBufferSize": 1024,
-      "autoCommitPeriod": 10,
-      "autoCompactFillRate": 40,
-      "idProviderType": "SEQUENTIAL",
-      "useCompression": false,
-      "readOnly": false,
-      "compactOnClose": false,
-      "printDebugInfoOnClose": false,
-      "id": "1342e98e-ab14-4463-a3e4-a78f32e85755",
-      "autoStart": false,
-      "moduleClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabase"
-    },
-    "systemUIDs": [],
-    "autoPurgeConfig": [],
-    "minCommitPeriod": 10000,
-    "databaseNum": 3,
-    "id": "c2b74bf2-e9e5-4c72-b2f8-9614e366c619",
-    "autoStart": false,
-    "moduleClass": "org.sensorhub.impl.database.system.SystemDriverDatabase",
-    "name": "New System Driver Database"
   }
 ]

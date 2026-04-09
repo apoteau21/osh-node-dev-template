@@ -12,9 +12,9 @@
     "trustStorePath": ".keystore/ssl_trust",
     "enableCORS": true,
     "id": "5cb05c9c-9e08-4fa1-8731-ffaa5846bdc1",
-    "autoStart": true,
     "moduleClass": "org.sensorhub.impl.service.HttpServer",
-    "name": "HTTP Server"
+    "name": "HTTP Server",
+    "autoStart": true
   },
   {
     "objClass": "org.sensorhub.impl.security.BasicSecurityRealmConfig",
@@ -82,9 +82,9 @@
       }
     ],
     "id": "bd112969-8838-4f62-8d10-1edf1baa6669",
-    "autoStart": true,
     "moduleClass": "org.sensorhub.impl.security.BasicSecurityRealm",
-    "name": "Users"
+    "name": "Users",
+    "autoStart": true
   },
   {
     "objClass": "org.sensorhub.ui.AdminUIConfig",
@@ -92,11 +92,10 @@
     "bundleRepoUrls": [],
     "customPanels": [],
     "customForms": [],
-    "enableLandingPage": false,
     "id": "5cb05c9c-9123-4fa1-8731-ffaa51489678",
-    "autoStart": true,
     "moduleClass": "org.sensorhub.ui.AdminUIModule",
-    "name": "Admin UI"
+    "name": "Admin UI",
+    "autoStart": true
   },
   {
     "objClass": "org.sensorhub.impl.service.sos.SOSServiceConfig",
@@ -164,9 +163,9 @@
     "enableSOAP": true,
     "endPoint": "/sos",
     "id": "5cb05c9c-9e08-4fa1-8731-ff41e246bdc1",
-    "autoStart": true,
     "moduleClass": "org.sensorhub.impl.service.sos.SOSService",
-    "name": "SOS Service"
+    "name": "SOS Service",
+    "autoStart": true
   },
   {
     "objClass": "org.sensorhub.impl.database.system.SystemDriverDatabaseConfig",
@@ -182,18 +181,16 @@
       "useCompression": false,
       "readOnly": false,
       "compactOnClose": false,
-      "printDebugInfoOnClose": false,
-      "autoStart": false,
-      "moduleClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabase"
+      "moduleClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabase",
+      "autoStart": false
     },
     "systemUIDs": [],
-    "autoPurgeConfig": [],
     "minCommitPeriod": 10000,
     "databaseNum": 1,
     "id": "29f2b677-95b1-4499-8e5b-459839ec3eb6",
-    "autoStart": true,
     "moduleClass": "org.sensorhub.impl.database.system.SystemDriverDatabase",
-    "name": "System Driver Database"
+    "name": "System Driver Database",
+    "autoStart": true
   },
   {
     "objClass": "org.sensorhub.impl.service.consys.ConSysApiServiceConfig",
@@ -206,8 +203,6 @@
     "enableTransactional": false,
     "maxResponseLimit": 100000,
     "defaultLiveTimeout": 600.0,
-    "uriPrefixMap": [],
-    "threadPoolSize": 0,
     "ogcCapabilitiesInfo": {
       "objClass": "org.sensorhub.impl.service.ogc.OGCServiceConfig$CapabilitiesInfo",
       "serviceProvider": {
@@ -224,79 +219,8 @@
     "enableSOAP": true,
     "endPoint": "/api",
     "id": "2659dc3b-f243-477e-b43f-214b75cc8c57",
-    "autoStart": true,
     "moduleClass": "org.sensorhub.impl.service.consys.ConSysApiService",
-    "name": "Connected Systems API Service"
-  },
-  {
-    "objClass": "org.sensorhub.impl.sensor.fakeweather.FakeWeatherConfig",
-    "serialNumber": "0123456879",
-    "location": {
-      "objClass": "org.sensorhub.api.sensor.PositionConfig$LLALocation",
-      "lat": 34.8038,
-      "lon": -86.7228,
-      "alt": 0.0
-    },
-    "lastUpdated": "2026-01-23T11:55:00.395-0600",
-    "id": "27ef67bb-71a9-4cb2-8b92-096b3cc436f0",
-    "autoStart": true,
-    "moduleClass": "org.sensorhub.impl.sensor.fakeweather.FakeWeatherSensor",
-    "name": "New Simulated Weather Sensor"
-  },
-  {
-    "objClass": "org.sensorhub.impl.database.system.SystemDriverDatabaseConfig",
-    "dbConfig": {
-      "objClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabaseConfig",
-      "indexObsLocation": false,
-      "storagePath": "beast.db",
-      "memoryCacheSize": 5120,
-      "autoCommitBufferSize": 1024,
-      "autoCommitPeriod": 10,
-      "autoCompactFillRate": 40,
-      "idProviderType": "SEQUENTIAL",
-      "useCompression": false,
-      "readOnly": false,
-      "compactOnClose": false,
-      "printDebugInfoOnClose": false,
-      "id": "ddd7e6d8-2466-4e07-89e2-5137eea44cf1",
-      "autoStart": false,
-      "moduleClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabase"
-    },
-    "systemUIDs": [],
-    "autoPurgeConfig": [],
-    "minCommitPeriod": 10000,
-    "databaseNum": 2,
-    "id": "5906eceb-79b1-4f8c-9f71-1c5b85c72b37",
-    "autoStart": true,
-    "moduleClass": "org.sensorhub.impl.database.system.SystemDriverDatabase",
-    "name": "New System Driver Database"
-  },
-  {
-    "objClass": "org.sensorhub.impl.database.system.SystemDriverDatabaseConfig",
-    "dbConfig": {
-      "objClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabaseConfig",
-      "indexObsLocation": false,
-      "storagePath": "misb_uas_CPI-24.db",
-      "memoryCacheSize": 5120,
-      "autoCommitBufferSize": 1024,
-      "autoCommitPeriod": 10,
-      "autoCompactFillRate": 40,
-      "idProviderType": "SEQUENTIAL",
-      "useCompression": false,
-      "readOnly": false,
-      "compactOnClose": false,
-      "printDebugInfoOnClose": false,
-      "id": "1342e98e-ab14-4463-a3e4-a78f32e85755",
-      "autoStart": false,
-      "moduleClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabase"
-    },
-    "systemUIDs": [],
-    "autoPurgeConfig": [],
-    "minCommitPeriod": 10000,
-    "databaseNum": 3,
-    "id": "c2b74bf2-e9e5-4c72-b2f8-9614e366c619",
-    "autoStart": false,
-    "moduleClass": "org.sensorhub.impl.database.system.SystemDriverDatabase",
-    "name": "New System Driver Database"
+    "name": "Connected Systems API Service",
+    "autoStart": true
   }
 ]

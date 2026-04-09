@@ -11,7 +11,10 @@
  ******************************* END LICENSE BLOCK ***************************/
 package org.sensorhub.node.test;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import org.sensorhub.impl.SensorHub;
+import org.slf4j.LoggerFactory;
 
 /**
  * The sensorhub-test module provides a convenient way to build and run an OpenSensorHub (OSH) node
@@ -27,10 +30,16 @@ import org.sensorhub.impl.SensorHub;
  * Additional drivers can be added to the build.gradle file in the dependencies section.
  */
 public class TestSensorHub {
+
     private TestSensorHub() {
+
     }
 
+
     public static void main(String[] args) {
+        Logger logger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        logger.setLevel(Level.ERROR);
+
         SensorHub.main(new String[]{"tools/sensorhub-test/src/main/resources/config.json", "storage"});
     }
 }

@@ -8,6 +8,11 @@ dependencies {
     implementation 'org.sensorhub:sensorhub-webui-core:' + oshCoreVersion
     implementation 'org.sensorhub:sensorhub-service-consys:' + oshCoreVersion
     implementation project(':sensorhub-driver-template')
+    implementation project(':sensorhub-driver-simuav')
+    implementation project(':sensorhub-datamodel-uxs')
+    implementation project(':sensorhub-process-geoloc')
+    implementation project(':sensorhub-process-vecmath')
+    implementation project(':sensorhub-driver-fakeweather')
 
     // To test your own modules, add a line with your module's project name.
     // EX:

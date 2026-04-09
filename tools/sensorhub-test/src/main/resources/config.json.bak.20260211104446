@@ -92,7 +92,6 @@
     "bundleRepoUrls": [],
     "customPanels": [],
     "customForms": [],
-    "enableLandingPage": false,
     "id": "5cb05c9c-9123-4fa1-8731-ffaa51489678",
     "autoStart": true,
     "moduleClass": "org.sensorhub.ui.AdminUIModule",
@@ -182,7 +181,6 @@
       "useCompression": false,
       "readOnly": false,
       "compactOnClose": false,
-      "printDebugInfoOnClose": false,
       "autoStart": false,
       "moduleClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabase"
     },
@@ -206,8 +204,6 @@
     "enableTransactional": false,
     "maxResponseLimit": 100000,
     "defaultLiveTimeout": 600.0,
-    "uriPrefixMap": [],
-    "threadPoolSize": 0,
     "ogcCapabilitiesInfo": {
       "objClass": "org.sensorhub.impl.service.ogc.OGCServiceConfig$CapabilitiesInfo",
       "serviceProvider": {
@@ -242,61 +238,5 @@
     "autoStart": true,
     "moduleClass": "org.sensorhub.impl.sensor.fakeweather.FakeWeatherSensor",
     "name": "New Simulated Weather Sensor"
-  },
-  {
-    "objClass": "org.sensorhub.impl.database.system.SystemDriverDatabaseConfig",
-    "dbConfig": {
-      "objClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabaseConfig",
-      "indexObsLocation": false,
-      "storagePath": "beast.db",
-      "memoryCacheSize": 5120,
-      "autoCommitBufferSize": 1024,
-      "autoCommitPeriod": 10,
-      "autoCompactFillRate": 40,
-      "idProviderType": "SEQUENTIAL",
-      "useCompression": false,
-      "readOnly": false,
-      "compactOnClose": false,
-      "printDebugInfoOnClose": false,
-      "id": "ddd7e6d8-2466-4e07-89e2-5137eea44cf1",
-      "autoStart": false,
-      "moduleClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabase"
-    },
-    "systemUIDs": [],
-    "autoPurgeConfig": [],
-    "minCommitPeriod": 10000,
-    "databaseNum": 2,
-    "id": "5906eceb-79b1-4f8c-9f71-1c5b85c72b37",
-    "autoStart": true,
-    "moduleClass": "org.sensorhub.impl.database.system.SystemDriverDatabase",
-    "name": "New System Driver Database"
-  },
-  {
-    "objClass": "org.sensorhub.impl.database.system.SystemDriverDatabaseConfig",
-    "dbConfig": {
-      "objClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabaseConfig",
-      "indexObsLocation": false,
-      "storagePath": "misb_uas_CPI-24.db",
-      "memoryCacheSize": 5120,
-      "autoCommitBufferSize": 1024,
-      "autoCommitPeriod": 10,
-      "autoCompactFillRate": 40,
-      "idProviderType": "SEQUENTIAL",
-      "useCompression": false,
-      "readOnly": false,
-      "compactOnClose": false,
-      "printDebugInfoOnClose": false,
-      "id": "1342e98e-ab14-4463-a3e4-a78f32e85755",
-      "autoStart": false,
-      "moduleClass": "org.sensorhub.impl.datastore.h2.MVObsSystemDatabase"
-    },
-    "systemUIDs": [],
-    "autoPurgeConfig": [],
-    "minCommitPeriod": 10000,
-    "databaseNum": 3,
-    "id": "c2b74bf2-e9e5-4c72-b2f8-9614e366c619",
-    "autoStart": false,
-    "moduleClass": "org.sensorhub.impl.database.system.SystemDriverDatabase",
-    "name": "New System Driver Database"
   }
 ]

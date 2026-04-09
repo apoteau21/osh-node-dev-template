@@ -29,6 +29,11 @@ dependencies {
 //  implementation project(':sensorhub-storage-h2')
 //  implementation project(':sensorhub-service-video')
 //  implementation project(':sensorhub-driver-videocam')
+  implementation project(':sensorhub-driver-simuav')
+  implementation project(':sensorhub-datamodel-uxs')
+  implementation project(':sensorhub-process-geoloc')
+  implementation project(':sensorhub-process-vecmath')
+  implementation project(':sensorhub-driver-fakeweather')
 }
 
 // create one configuration for each distribution

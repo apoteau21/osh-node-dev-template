@@ -15,6 +15,21 @@ includeBuild gradle.oshCoreDir
 include 'sensorhub-test'
 project(':sensorhub-test').projectDir = "$toolsDir/sensorhub-test" as File
 
+include 'sensorhub-driver-simuav'
+project(':sensorhub-driver-simuav').projectDir = "$sensorDir/simulated/sensorhub-driver-simuav" as File
+
+include 'sensorhub-datamodel-uxs'
+project(':sensorhub-datamodel-uxs').projectDir = "$sensorDir/robotics/sensorhub-datamodel-uxs" as File
+
+include 'sensorhub-process-geoloc'
+project(':sensorhub-process-geoloc').projectDir = "$processDir/sensorhub-process-geoloc" as File
+
+include 'sensorhub-process-vecmath'
+project(':sensorhub-process-vecmath').projectDir = "$processDir/sensorhub-process-vecmath" as File
+
+include 'sensorhub-driver-fakeweather'
+project(':sensorhub-driver-fakeweather').projectDir = "$sensorDir/simulated/sensorhub-driver-fakeweather" as File
+
 
 // osh-storage
 //include '[storage-module-name]'
